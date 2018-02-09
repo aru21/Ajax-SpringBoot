@@ -30,11 +30,40 @@
 							console.log("value of s" + s);
 							}
 						
-						$('listAllState').html(s);
+						$('#listAllState').html(s);
 					}
 				})
 				
 			});
+			
+			
+	$('#listAllState').on('change' , function(){
+				
+				var stateId = $('#listAllState option:selected').val();
+				alert(stateId);
+				$.ajax({
+					
+					type:'GET',
+					contentType: "application/json",
+					url:'/loadCities/' + stateId + '.html' ,
+					success:function(result){
+						
+						var result =  JSON.parse(result);
+						var c ='';
+						console.log(result.length);
+						
+						for(var i = 0 ; i< result.length ; i++ )
+							{
+							c +='<option value="'+ result[i].id +'">' + result[i].name +'</option>'
+							console.log("value of c" + c);
+							}
+						
+						$('#listAllCity').html(c);
+					}
+				})
+				
+			});
+			
 			
 		});
 		 /*]]>*/
@@ -47,7 +76,11 @@
 			width: 500px;
 		}
 		
-		#listAllCountry
+		#listAllState
+		{
+			width: 500px;
+		}
+		#listAllCity
 		{
 			width: 500px;
 		}
@@ -59,14 +92,23 @@
 
 
 	<select id="listAllCountry" >
+			 <option value= "select Country"></option>
              <option th:each="list : ${listAllCountry}" th:value="${list.id}" th:text="${list.name}"></option>
 
     </select>
     <br/>
     <select id="listAllState" >
+    		 <option value= "select Country">select Country</option>
              <option th:each="list : ${s}" th:value="${list.id}" th:text="${list.name}"></option>
 
     </select>  
+    <br/>
+     <select id="listAllCity" >
+      		 <option value= "select Country">select Country</option>
+             <option th:each="list : ${c}" th:value="${list.id}" th:text="${list.name}"></option>
+
+    </select>  
+   <!--  <div id="listAllState"> </div> -->
     
 
 </body>
